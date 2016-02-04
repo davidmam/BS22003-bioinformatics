@@ -10,50 +10,55 @@ import random
 errmsg='''An error occurred in your code. 
 Please check the previous cells have all been run correctly and in order'''
 msg=' then run the test again'
-def test1():
+def test1(v ):
     try:    
-        if enzyme=='TCCGGA':
+        if v['enzyme']=='TCCGGA':
             print('variable enzyme created correctly')
         else:
             print('variable enzyme not created correctly')
     except:
         print(errmsg)
 
-def test1a():
-    if 'cut1' not in globals() and 'cut1' not in locals():
+def test1a(v):
+    if 'cut1' not in v :
         print("Try using 'cut1 = ' to set the value of cut1")
         return
-    if cut1==840:
+    if v['cut1']==840:
         print('cut1 value set correctly')
-        if 'cut2' not in globals() and 'cut2' not in locals():
+        if 'cut2' not in v:
             print("Try using 'cut2 = ' to set the value of cut2")
             return    
-        if cut2==1571:
+        if v['cut2']==1571:
             print('Correct answers. cut1 and cut2 set correctly')
         else:
             print('cut2 value incorrect')
     else:
         print('cut1 value incorrect')
         
-def test2():
+def test2(v):
     try:
-        if frag1==840:
+        if v['frag1']==840:
             print("Fragment 1 correct" )
         else:
             print("Fragment 1 incorrect")
-        if frag2==731 :
+        if v['frag2']==731 :
             print("Fragment 2 correct" )
         else:
             print("Fragment 2 incorrect")
-        if frag3== 556 :
+        if v['frag3']== 556 :
             print("Fragment 3 correct" )
         else:
             print("Fragment 3 incorrect")
     except:
         print(errmsg)
         
-def test4():
+def test4(v):
     ps='ctcgcactccctctggccggcccagggcgccttcagcccaacctccccagccccacgggcgccacggaacccgctcgatctcgccgccaactggtagacatggagacccctgcctggccccgggtcccgcgccccgagaccgccgtcgctcggacgctcctgctcggctgggtcttcgcccaggtggccggcgcttcaggcactacaaatactgtggcagcatataatttaacttggaaatcaactaatttcaagacaattttggagtgggaacccaaacccgtcaatcaagtctacactgttcaaataagcactaagtcaggagattggaaaagcaaatgcttttacacaacagacacagagtgtgacctcaccgacgagattgtgaaggatgtgaagcagacgtacttggcacgggtcttctcctacccggcagggaatgtggagagcaccggttctgctggggagcctctgtatgagaactccccagagttcacaccttacctggagacaaacctcggacagccaacaattcagagttttgaacaggtgggaacaaaagtgaatgtgaccgtagaagatgaacggactttagtcagaaggaacaacactttcctaagcctccgggatgtttttggcaaggacttaatttatacactttattattggaaatcttcaagttcaggaaagaaaacagccaaaacaaacactaatgagtttttgattgatgtggataaaggagaaaactactgtttcagtgttcaagcagtgattccctcccgaacagttaaccggaagagtacagacagcccggtagagtgtatgggccaggagaaagggGAATTCagagaaatattctacatcattggagctgtggtatttgtggtcatcatccttgtcatcatcctggctatatctctacacaagtgtagaaaggcaggagtggggcagagctggaaggagaactccccactgaatgtttcataaaggaagcactgttggagctactgcaaatgctatattgcactgtgaccgagaacttttaagaggatagaatacatggaaacgcaaatgagtatttcggagcatgaagaccctggagttcaaaaaactcttgatatgacctgttattaccattagcattctggttttgacatcagcattagtcactttgaaatgtaacgaatggtactacaaccaattccaagttttaatttttaacaccatggcaccttttgcacataacatgctttagattatatattccgcactcaaggagtaaccaggtcgtccaagcaaaaacaaatgggaaaatgtcttaaaaaatcctgggtggacttttgaaaagcttttttttttttttttttttgagacggagtcttgctctgttgcccaggctggagtgcagtagcacgatctcggctcactgcaccctccgtctctcgggttcaagcaattgtctgcctcagcctcccgagtagctgggattacaggtgcgcactaccacaccaagctaatttttgtattttttagtagagatggggtttcaccatcttggccaggctggtcttGAATTCctgacctcagttgatccacccaccttggcctcccaaagtgctagtattatgggcgtgaaccaccatgcccagccgaaaagcttttgaggggctgacttcaatccatgtaggaaagtaaaatggaaggaaattgggtgcatttctaggacttttctaacatatgtctataatatagtgtttaggttcttttttttttcaggaatacatttggaaattcaaaacaattggcaaactttgtattaatgtgttaagtgcaggagacattggtattctgggcaccttcctaatatgctttacaatctgcactttaactgacttaagtggcattaaacatttgagagctaactatatttttataagactactatacaaactacagagtttatgatttaaggtacttaaagcttctatggttgacattgtatatataattttttaaaaaggttttctatatggggattttctatttatgtaggtaatattgttctatttgtatatattgagataatttatttaatatactttaaataaaggtgactgggaattgtta'
+    try:
+        prettyseq=v['prettyseq']
+    except:
+        print(errmsg)
+        return
     if prettyseq==ps:
         print('congratulations. Your sequence is suitably pretty')
         return
@@ -62,104 +67,200 @@ def test4():
     else:
         print('Wrong answer - get each part with text[start:end+1] and use .lower() as required')
         
-def test5():
+def test5(v):
     msg=' then run the test again'
-    if 'noncutter' not in globals() or 'largest_frag' not in globals() or 'largest_cutter' not in globals() or 'smallest_frag' not in globals() or 'smallest_cutter' not in globals():
+    if 'noncutter' not in v or 'largest_frag' not in v or 'largest_cutter' not in v or 'smallest_frag' not in v or 'smallest_cutter' not in v:
         print('Make sure you have properly defined all five variables'+msg)
         return
-    if noncutter==bsai or noncutter.upper()=='GGTCTC' or noncutter.upper()=='BSAI':
+    if v['noncutter']==v['bsai'] or v['noncutter'].upper()=='GGTCTC' or v['noncutter'].upper()=='BSAI':
         print('Correct. BsaI does not cut.')
     else:
         print('check the results for your non-cutting enzyme'+msg)
         return
         
-    if largest_frag == 2127:
+    if v['largest_frag'] == 2127:
         print('Choose an enzyme that does cut'+msg)
         return
-    if largest_frag ==2009 and largest_cutter.lower()=='smai':
+    if v['largest_frag'] ==2009 and v['largest_cutter'].lower()=='smai':
         print('Correct largest fragment')
     else:
         print('check your results for the largest fragment carefully'+msg)
-   if smallest_frag ==118 and largest_cutter.lower()=='smai':
+    if v['smallest_frag'] ==118 and v['smallest_cutter'].lower()=='smai':
         print('Correct smallest fragment')
     else:
         print('check your results for the smallest fragment carefully'+msg)
         
-def test6():
-    if 'variance' not in globals():
+def test6(v):
+    if 'variance' not in v:
         print('ensure that your code runs without an error'+msg)
         return
-    if variance==0:
+    if v['variance']==0:
         print('ensure your code adds to the sumofsquares variable'+msg)
         return
-    if variance==437112:
+    if v['variance']==437112:
         print('you should add to the sumofsquares, not replace it. Check your code'+msg)
         return
-    if variance != 873290:
+    if v['variance'] != 873290:
         print(errmsg)
         return
     else:
         print('Correct. The variance has been calculated.')
         
-def test7():
-    if 'longest' not in globals():
+def test7(v):
+    if 'longest' not in v:
         print('you must run the previous cell without error first. Please fix your code'+msg)
         return
-    if longest==1996:
+    if v['longest']==1996:
         print('Correct. The longest fragment has been successfully found')
     else:
         print(errmsg)
 
-def test8():
-    if not singlecutters:
+def test8(v):
+    if 'singlecutters' not in v or not v['singlecutters']:
         print('check your code to make sure you append something to the list of single cutters'+msg)
         return
-    if len(singlecutters)==92:
+    if len(v['singlecutters'])==92:
         print('Correct. There are 92 enzymes in the list that cut exactly once')
         return
     else:
         print('check your code. Especially check that you have indented it properly and the if statement is correct'+msg)
         
-def test9():
-    if '' in overlaps:
+def test9(v):
+    if '' in v['overlaps']:
         print('Check you have got the smaller value in the first position when findign your overlap in the pattern'+msg)
         return
-    if len(overlaps)==42:
+    if len(v['overlaps'])==42:
         print('congratulations, you have found the overlaps')
         return
     else:
         print(errmsg)
         
-def test10():        
-    if not 'stickies' in globals():
+def test10(v):        
+    if not 'stickies' in v:
         print('Ensure your code runs without errors'+msg)
         return
     try:
-        assert len(stickies)==14
-        assert len(stickies['Blunt'])==4
+        assert len(v['stickies'])==14
+        assert len(v['stickies']['Blunt'])==4
     except:
         print(errmsg)
         return
     print('All tests passed - stickies are good to go!')
     
-def test11():
-    pass
-
-def test12():
-    pass
-
-def test13():
-    pass
-
-def test14():
-    pass
+def test11(v):
+    gcutters=[]
+    for enz in elist:
+        if sequence.count(enz['pattern'])==1:
+            gcutters.append(enz)
+    try:
+        assert len(gcutters) == len(v['gcutters'])
+        print('Correctly identified the single cutting enzymes')
+        assert v['gene']==sequence
+        assert v['matricnum']
+        print('correctly retrieved your gene sequence with your matriculation number')
+    except:
+        print('Are you sure you are checking the correct value and adding to the list? '+msg)
         
+def test12(v):
+    firstcutsite=len(gene)
+    lastcutsite=0
+    firstcutter='' #name of our first cutting enzyme
+    lastcutter='' #name of our last cutting enzyme
+    for gc in gcutters:
+        if gc['overlap'] in stickies:
+            # yes, we found a compatible cutter
+            ecut=gene.find(gc['pattern']) # add something to make this the correct postion - where does the enzyme actually cut?
+            if ecut < firstcutsite:
+                firstcutsite=ecut
+                firstcutter=gc
+            #add an if statement and block to ckeck if it is the last cutter.
+            if ecut > lastcutsite:
+                lastcutsite=ecut
+                lastcutter=gc
+    try:
+        assert v['firstcutsite']==firstcutsite
+        assert v['firstcutter']['name']==firstcutter['name']
+        print('first enzyme found: %s cutting at %s'%(firstcutter['name'],firstcutsite) )
+        assert v['firstcutsite']==firstcutsite
+        assert v['firstcutsite']==firstcutsite
+        print('second enzyme found: %s cutting at %s'%(lastcutter['name'],lastcutsite))
+    except:
+        print(errmsg)        
+        
+def test13(v):
+    try:
+        assert v['firstcutter']
+        assert v['lastcutter']
+    except:
+        print('Ensure you have run the previous code successfully before running this test '+msg)
+        return
+    try:
+        assert v['plasmidcutsite1']
+        assert v['plasmidcutter1']
+        assert v['plasmidcutsite2']
+        assert v['plasmidcutter2']
+    except:
+        print('ensure you have successfully defined the plasmid cut sites '+msg)
+        return
+    ps1=[x['pcut'] for x in stickies[firstcutter['overlap']]]    
+    pn1=[x['name'] for x in stickies[firstcutter['overlap']]]
+    ps2=[x['pcut'] for x in stickies[lastcutter['overlap']]]
+    pn2=[x['name'] for x in stickies[lastcutter['overlap']]]
+    try:
+        assert v['plasmidcutsite1'] in ps1        
+        assert v['plasmidcutsite2'] in ps2
+        assert v['plasmidcutter1'] in pn1
+        assert v['plasmidcutter1'] in pn2
+    except:
+        print('plasmid cut sites incorrectly defined. '+msg)
+
+def test14(v):
+    try:
+        assert v['revcomp']
+    except:
+        print('Ensure you have run the cell to define the revcomp() method if you need it.')
+    fragstart=0
+    fragend=0
+    frag=''
+    cloneseq=''
+    try:
+        if v['plasmidcutsite1']<v['plasmidcutsite2']:
+            fragstart=v['firstcutsite']+v['firstcutter']['forcut']-1
+            fragend=v['lastcutsite']+v['lastcutter']['forcut']-1
+            frag=sequence[fragstart:fragend]
+            pstart=v['plasmidcutsite1']+v['plasmidcutter1']['forcut']-1
+            pend=v['plasmidcutsite2']+v['plasmidcutter2']['forcut']-1
+            cloneseq=pseq[:pstart]+frag+pseq[pend:]
+        else:
+            fragstart=v['firstcutsite']+v['firstcutter']['revcut']-1
+            fragend=v['lastcutsite']+v['lastcutter']['revcut']-1
+            frag=revcomp(sequence[fragstart:fragend])
+            pend=v['plasmidcutsite1']+v['plasmidcutter1']['forcut']-1
+            pstart=v['plasmidcutsite2']+v['plasmidcutter2']['forcut']-1
+            cloneseq=pseq[:pstart]+frag+pseq[pend:]
+        assert cloneseq==v['clonedsequence']
+        print('Congratulations, you have the correctly cloned sequence')
+    except:
+        feedback='''Not quite there. Things to check:
+            1. Have you got your sequence the right way round? Check which sticky end comes first in the plasmid.
+            2. Did you take into account the sticky ends? Where does the enzyme actually cut?
+            3. If your gene goes in in reverse orientation did you reverse and complement the sequence?
+            4. Think about the cut sites - if it is reversed thene the cut sites will be on the reverse strand
+            5. Are the sites where you think they are? Check to see the fragments start and stop with the correct sequence.
+            '''
+        print(feedback)
+            
+            
 def getmysequence(seed):
+    globals().update({'matricnum':int(seed)})
     #pass
+   
     #seed=12345
     snum=int(seed)
     random.seed(snum)
+    global elist
     elist=[]
+    global olist
     olist={}
     for e in open('enzymes.txt').readlines():
         elist.append(dict(zip(['name', 'pattern','forcut','revcut'], e.strip().split('\t'))))
@@ -183,19 +284,29 @@ def getmysequence(seed):
             olist[overlap].append(elist[-1])
         except:
             olist[overlap]=elist[-1:]
+    global pseq
     pseq=open('plasmid.txt').read()
+    global cutters
     cutters=[]
     for e in elist:
         if pseq.count(e['pattern'])==1 and pseq.find(e['pattern'])>650 and pseq.find(e['pattern'])<750 and len(e['pattern'])>=4:
             cutters.append(e)
+            e['pcut']=pseq.find(e['pattern'])
     #print(cutters)
-    stickies=[x['overlap'] for x in cutters]
+    global stickies
+    stickies={}
+    for x in cutters:
+        try:
+            stickies[x['overlap']].append(x)
+        except:
+            stickies[x['overlap']]=[x]    
     if 'External' in stickies:
-        stickies.remove('External')
+        del stickies['External']
     if 'Blunt' in stickies:
-        stickies.remove('Blunt')
+        del stickies['Blunt']
     #print(stickies)
-    seqlen=snum%10000
+    seqlen=snum%10000 +10000
+    global sequence
     sequence=''
     for s in range(seqlen):
         sequence+=random.sample(['A','C','T','G'],1)[0]
@@ -236,6 +347,32 @@ def getmysequence(seed):
             sequence=sequence+addsticky(sequence,elist,stickies).replace(startpat,'')
         else:            
             sequence=sequence+addsticky(sequence,elist,stickies)
+    global gcutters
+    gcutters=[]
+    for enz in elist:
+        if sequence.count(enz['pattern'])==1:
+            gcutters.append(enz)
+    firstcutsite=len(sequence)
+    firstcutter=''
+    lastcutsite=0
+    lastcutter=''
+    for gc in gcutters:
+        if gc['overlap'] in stickies:
+            # yes, we found a compatible cutter
+            ecut=sequence.find(gc['pattern'])
+            if ecut < firstcutsite:
+                firstcutsite=ecut
+                firstcutter=gc
+            #add an if statement and block to ckeck if it is the last cutter.
+            if ecut > lastcutsite:
+                lastcutsite=ecut
+                lastcutter=gc
+    while abs(stickies[firstcutter['overlap']][0]['pcut']-stickies[lastcutter['overlap']][0]['pcut']) <10:
+         newcutter=random.sample(cutters, 1)[0]
+         if abs(newcutter['pcut']-stickies[firstcutter['overlap']][0]['pcut']) > 10:
+             newenz=random.sample(olist[newcutter['overlap']],1)[0]
+             sequence=sequence.replace(newenz['pattern'],'').replace(firstcutter['pattern'], newenz['pattern'])
+             firstcutter=newenz    
     return sequence    
         
         
