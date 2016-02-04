@@ -4,6 +4,9 @@ Spyder Editor
 
 This is a temporary script file.
 """
+
+import random
+
 errmsg='''An error occurred in your code. 
 Please check the previous cells have all been run correctly and in order'''
 msg=' then run the test again'
@@ -76,7 +79,11 @@ def test5():
     if largest_frag ==2009 and largest_cutter.lower()=='smai':
         print('Correct largest fragment')
     else:
-        print('check your results carefully'+msg)
+        print('check your results for the largest fragment carefully'+msg)
+   if smallest_frag ==118 and largest_cutter.lower()=='smai':
+        print('Correct smallest fragment')
+    else:
+        print('check your results for the smallest fragment carefully'+msg)
         
 def test6():
     if 'variance' not in globals():
@@ -129,17 +136,128 @@ def test10():
         return
     try:
         assert len(stickies)==14
-        assert len(stickies['Blunt'])==5
+        assert len(stickies['Blunt'])==4
     except:
         print(errmsg)
         return
     print('All tests passed - stickies are good to go!')
+    
+def test11():
+    pass
+
+def test12():
+    pass
+
+def test13():
+    pass
+
+def test14():
+    pass
+        
+def getmysequence(seed):
+    #pass
+    #seed=12345
+    snum=int(seed)
+    random.seed(snum)
+    elist=[]
+    olist={}
+    for e in open('enzymes.txt').readlines():
+        elist.append(dict(zip(['name', 'pattern','forcut','revcut'], e.strip().split('\t'))))
+        elist[-1]['forcut']=int(elist[-1]['forcut'])
+        elist[-1]['revcut']=int(elist[-1]['revcut'])    
+        overlap='External'
+        if elist[-1]['forcut'] > len(elist[-1]['pattern']) or elist[-1]['revcut'] > len(elist[-1]['pattern']):
+            # enzyme cuts outwith the pattern
+            overlap='External'
+        elif elist[-1]['forcut']==elist[-1]['revcut']:
+            #fill this in 
+            overlap='Blunt'
+        elif elist[-1]['forcut'] < elist[-1]['revcut']: #fill this in and don't forget the : at the end - this should get the 5' overhangs
+            overlap=elist[-1]['pattern'][elist[-1]['forcut']:elist[-1]['revcut']].lower() 
+        else:
+            # this should be the upper case overlap so set overlap to the overlap in upper case. 
+            #remember to put the smaller value first when getting the overlap
+            overlap=elist[-1]['pattern'][elist[-1]['revcut']:elist[-1]['forcut']]
+        elist[-1]['overlap']=overlap      
+        try:
+            olist[overlap].append(elist[-1])
+        except:
+            olist[overlap]=elist[-1:]
+    pseq=open('plasmid.txt').read()
+    cutters=[]
+    for e in elist:
+        if pseq.count(e['pattern'])==1 and pseq.find(e['pattern'])>650 and pseq.find(e['pattern'])<750 and len(e['pattern'])>=4:
+            cutters.append(e)
+    #print(cutters)
+    stickies=[x['overlap'] for x in cutters]
+    if 'External' in stickies:
+        stickies.remove('External')
+    if 'Blunt' in stickies:
+        stickies.remove('Blunt')
+    #print(stickies)
+    seqlen=snum%10000
+    sequence=''
+    for s in range(seqlen):
+        sequence+=random.sample(['A','C','T','G'],1)[0]
+    minpos=len(sequence)
+    startcut=False
+    startpat=''
+    endcut=False
+    endpat=''
+    usable=0
+    for e in elist:
+        if sequence.count(e['pattern'])==1 and e['overlap'] in stickies:
+            if sequence.find(e['pattern'])<=400:
+                startcut=True
+                startpat=e['pattern']
+            if sequence.find(e['pattern'])>=seqlen-400:
+                endcut=True
+                endpat=e['pattern']
+        if sequence.count(e['pattern'])==0 and e['overlap'] in stickies:
+            usable=usable+1
+    random.seed(snum)
+    pats=random.sample(stickies, 2)    
+    if usable==0 and (endcut or startcut):
+        pats=pats[:1]
+    elif usable>1 or (endcut or startcut):
+        pats=[]
+    for p in pats:
+        sequence.replace(random.sample(olist[p],1)[0]['pattern'],'')
+        
+        # remove random patterns from the list of potential cloning enzymes.
+        # TODO 
+    if not startcut:
+        if endpat:
+            sequence=addsticky(sequence, elist, stickies).replace(endpat,'')+sequence
+        else:            
+            sequence=addsticky(sequence, elist, stickies)+sequence
+    if not endcut:
+        if startpat:       
+            sequence=sequence+addsticky(sequence,elist,stickies).replace(startpat,'')
+        else:            
+            sequence=sequence+addsticky(sequence,elist,stickies)
+    return sequence    
         
         
         
         
-        
-        
+def addsticky(sequence,elist,stickies):
+    random.seed(len(sequence))
+    newseq=''
+    newsite=False
+    while not newsite:
+        for n in range(200):
+            newseq=newseq+random.sample(['A','C','G','T'],1)[0]
+        for e in elist:
+            if e['overlap'] in stickies and sequence.count(e['pattern'])==0:
+                newsite=True
+                if newseq.count(e['pattern'])>1:
+                    newseq=newseq.replace(e['pattern'],'',newseq.count(e['pattern'])-1)
+                elif newseq.count(e['pattern']) == 0:
+                    splice=random.sample(range(200),1)[0]
+                    newseq=newseq[:splice]+e['pattern']+newseq[splice:]
+    return newseq
+            
         
         
         
