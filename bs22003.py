@@ -12,11 +12,11 @@ Please check the previous cells have all been run correctly and in order'''
 msg=' then run the test again'
 def test1(v ):
     try:    
-        if v['enzyme']=='TCCGGA':
-            print('variable enzyme created correctly')
-        else:
-            print('variable enzyme not created correctly')
+        assert v['enzyme']=='CTTAAG':
+        print('variable enzyme created correctly')
+        assert v['longsequence'].find(v['enzyme'])==1892
     except:
+        print('variable enzyme not created correctly')
         print(errmsg)
 
 def test1a(v):
